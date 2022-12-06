@@ -7,6 +7,17 @@ import { config } from "../utils/config";
 
 export function PopupAboutMe() {
   const [isShowing, setIsShowing] = useState(false);
+  const [timers, setTimers] = useState<NodeJS.Timeout[]>([]);
+  const FADE_FORM_TIMEOUT = 200;
+
+  const enterElement = () => {
+    // clearing timer
+    for (const timeout of timers) {
+      clearTimeout(timeout);
+    }
+    setIsShowing(true);
+  };
+
   const MyLinks = [
     {
       link: config.GITHUB_REPO_URI,
@@ -27,8 +38,15 @@ export function PopupAboutMe() {
               className={`
                 ${open ? "" : "text-opacity-90"}
                 group inline-flex items-center rounded-md bg-black px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none`}
-              onMouseEnter={() => setIsShowing(true)}
-              onMouseLeave={() => setIsShowing(false)}
+              onMouseEnter={enterElement}
+              onMouseLeave={() => {
+                setTimers([
+                  ...timers,
+                  setTimeout(() => {
+                    setIsShowing(false);
+                  }, FADE_FORM_TIMEOUT),
+                ]);
+              }}
             >
               <span>About me</span>
               <ChevronDownIcon
@@ -50,8 +68,15 @@ export function PopupAboutMe() {
               <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-[calc(50vw)] max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
                 <div
                   className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white flex"
-                  onMouseEnter={() => setIsShowing(true)}
-                  onMouseLeave={() => setIsShowing(false)}
+                  onMouseEnter={enterElement}
+                  onMouseLeave={() => {
+                    setTimers([
+                      ...timers,
+                      setTimeout(() => {
+                        setIsShowing(false);
+                      }, FADE_FORM_TIMEOUT),
+                    ]);
+                  }}
                 >
                   <section className="w-[50%]">
                     <img src={MeIcon} className="w-[30rem] bg-yellow-300" />

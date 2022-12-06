@@ -72,13 +72,12 @@ export default function HomePage() {
               >
                 Sudoku Solver
               </a>
-              <a
+              <div
                 key="About me"
-                href="/"
                 className="font-semibold text-gray-900 hover:text-gray-900"
               >
                 <PopupAboutMe />
-              </a>
+              </div>
             </div>
             <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
               <a
