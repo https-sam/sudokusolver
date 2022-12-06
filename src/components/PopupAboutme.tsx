@@ -66,8 +66,9 @@ export function PopupAboutMe() {
                     <section className="grid place-items-center">
                       <p className="font-semibold mt-10">Find me on</p>
                       <div className="flex mt-5 gap-3">
-                        {MyLinks.map((el) => (
+                        {MyLinks.map((el, i) => (
                           <a
+                            key={i}
                             href={el.link}
                             target="_blank"
                             className="border-[2px] border-gray-200 p-1 rounded-lg hover:bg-gray-100"
