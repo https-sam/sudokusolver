@@ -3,7 +3,6 @@ import { Fragment, useEffect, useState } from "react";
 import MyPromise from "../utils/promise";
 import solveSudoku from "../utils/solver";
 import Cell from "./Cell";
-import { PopupAboutMe } from "./PopupAboutme";
 
 const renderNewGrid = (board: string[][]) => {
   let counter = 0;
