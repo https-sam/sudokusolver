@@ -32,13 +32,13 @@ const isValidSudoku = (
   char: string
 ) => {
   for (let i = 0; i < 9; i++) {
-    if (board[row][i] == char) {
+    if (board[row][i] === char) {
       return false;
     }
   }
 
   for (let i = 0; i < 9; i++) {
-    if (board[i][col] == char) {
+    if (board[i][col] === char) {
       return false;
     }
   }
@@ -47,7 +47,7 @@ const isValidSudoku = (
   const y = ~~(col / 3) * 3;
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      if (board[x + i][y + j] == char) {
+      if (board[x + i][y + j] === char) {
         return false;
       }
     }

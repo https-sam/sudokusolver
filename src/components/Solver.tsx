@@ -1,8 +1,9 @@
-import Cell from "./Cell";
-import solveSudoku from "../utils/solver";
-import MyPromise from "../utils/promise";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import MyPromise from "../utils/promise";
+import solveSudoku from "../utils/solver";
+import Cell from "./Cell";
+import { PopupAboutMe } from "./PopupAboutme";
 
 const renderNewGrid = (board: string[][]) => {
   let counter = 0;
@@ -49,7 +50,7 @@ const isValidSudoku = function (board: string[][]) {
 
 const Solver = () => {
   let valArray: string[][] = [];
-  let [isOpen, setIsOpen] = useState(false);
+  const [invalidSodukuTriggered, setInvalidSodukuTriggered] = useState(false);
 
   function solveHelper() {
     valArray = [];
@@ -69,8 +70,9 @@ const Solver = () => {
     solveHelper(); // converts dom elmetns to a 2D array
     const pr = new MyPromise((resolve, reject) => {
       if (!isValidSudoku(valArray)) {
-        setIsOpen(true);
-        reject("The entered sudoku grid is invalid!");
+        // setIsOpen(true);
+        setInvalidSodukuTriggered(true);
+        reject("The Entered sudoku grid is invalid!");
       } else {
         resolve(solveSudoku(valArray));
       }
@@ -98,14 +100,23 @@ const Solver = () => {
     }
   };
 
-  function MyModal() {
+  function InvalidSoduku() {
+    let [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+      if (invalidSodukuTriggered) setIsOpen(true);
+    }, [invalidSodukuTriggered]);
+
     function closeModal() {
       setIsOpen(false);
+      setTimeout(() => {
+        setInvalidSodukuTriggered(false);
+      }, 300);
     }
 
     return (
       <>
-        <Transition appear show={isOpen} as={Fragment}>
+        <Transition appear={isOpen} show={isOpen} as={Fragment}>
           <Dialog as="div" className="relative z-10" onClose={closeModal}>
             <Transition.Child
               as={Fragment}
@@ -135,17 +146,21 @@ const Solver = () => {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
-                      Invalid Sodoku
+                      Oops.. Invalid Sudoku
                     </Dialog.Title>
                     <div className="mt-2">
-                      <h1 className="mb-1">Remember that . . . </h1>
                       <p className="text-sm text-gray-500">
-                        1) Each row must contain the digits 1-9 without
-                        repetition. <br /> 2) Each column must contain the
-                        digits 1-9 without repetition.
-                        <br /> 3) Each of the nine 3 x 3 sub-boxes of the grid
-                        must contain the digits 1-9 without repetition.
-                        <br />
+                        <div className="mt-2">
+                          <h1 className="mb-1">Remember that . . . </h1>
+                          <p className="text-sm text-gray-500">
+                            1) Each row must contain the digits 1-9 without
+                            repetition. <br /> 2) Each column must contain the
+                            digits 1-9 without repetition.
+                            <br /> 3) Each of the nine 3 x 3 sub-boxes of the
+                            grid must contain the digits 1-9 without repetition.
+                            <br />
+                          </p>
+                        </div>
                       </p>
                     </div>
 
@@ -179,7 +194,7 @@ const Solver = () => {
         ))}
       </div>
       <button
-        className="w-[20rem] h-[2.3rem] rounded-md text-white font-semibold bg-blue-700 hover:bg-blue-800 mt-10"
+        className="w-[20rem] h-[2.3rem] rounded-md text-white font-semibold bg-indigo-600 hover:bg-indigo-700 mt-10"
         onClick={startSolve}
       >
         Solve
@@ -190,7 +205,7 @@ const Solver = () => {
       >
         Reset
       </button>
-      <MyModal />
+      <InvalidSoduku />
     </>
   );
 };
