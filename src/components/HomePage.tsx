@@ -139,7 +139,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-3xl sm:pt-10 sm:pb-10">
             <div>
               <h1 className="mb-5 text-[3rem] font-semibold">Sudoku Solver</h1>
-              <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+              <div className="sm:mb-8 sm:flex sm:justify-center">
                 <div className="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                   <span className="text-gray-600">
                     The code is available on github{" "}
